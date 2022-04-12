@@ -37,14 +37,14 @@ jobs:
         CXX=/usr/bin/g++-7 cmake -DCOVERAGE=1 ..
         cmake --build .
         ./tests
-        lcov -t "tests" -o tests.info -c -d .
+        lcov -t "banking" -o lcov.info -c -d .
         
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.github_token }}
         parallel: true
-        path-to-lcov: ./_build/tests.info
+        path-to-lcov: ./_build/lcov.info
         coveralls-endpoint: https://coveralls.io
         
     - name: Coveralls Finish
