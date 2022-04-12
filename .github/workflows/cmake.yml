@@ -35,7 +35,7 @@ jobs:
         mkdir _build
         cd _build
         CXX=/usr/bin/g++-7 cmake -DCOVERAGE=1 ..
-        cmake --build _build
+        cmake --build .
         cd _build
         ./tests
         lcov -t "tests" -o tests.info -c -d .
