@@ -36,7 +36,6 @@ jobs:
         cd _build
         CXX=/usr/bin/g++-7 cmake -DCOVERAGE=1 ..
         cmake --build .
-        cd _build
         ./tests
         lcov -t "tests" -o tests.info -c -d .
         
