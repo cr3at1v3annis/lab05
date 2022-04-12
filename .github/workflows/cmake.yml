@@ -25,14 +25,34 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Update
-      run: git submodule update --init
+      run: |
+        sudo apt install git && git submodule update --init
+        sudo apt install lcov
+        sudo apt install g++-7
       
     - name: Testing
       run: |
-        cmake -H. -B_build
+        mkdir _build
+        cd _build
+        CXX=/usr/bin/g++-7 cmake -DCOVERAGE=1 ..
         cmake --build _build
         cd _build
         ./tests
+        lcov -t "tests" -o tests.info -c -d .
+        
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel: true
+        path-to-lcov: ./_build/tests.info
+        coveralls-endpoint: https://coveralls.io
+        
+    - name: Coveralls Finish
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel: true
         
   
       
